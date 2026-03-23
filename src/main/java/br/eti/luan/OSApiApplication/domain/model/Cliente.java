@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.util.Objects;
 
 /**
  *
@@ -18,7 +19,7 @@ import jakarta.persistence.Id;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String nome;
     private String email;
     
@@ -44,14 +45,14 @@ public class Cliente {
             return false;
         }
         final Cliente other = (Cliente) obj;
-        return this.id == other.id;
+        return Objects.equals(this.id, other.id);
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -82,7 +83,7 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(long id, String nome, String email, String fone) {
+    public Cliente(Long id, String nome, String email, String fone) {
         this.id = id;
         this.nome = nome;
         this.email = email;
