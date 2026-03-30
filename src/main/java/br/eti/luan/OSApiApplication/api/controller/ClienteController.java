@@ -6,6 +6,7 @@ package br.eti.luan.OSApiApplication.api.controller;
 
 import br.eti.luan.OSApiApplication.domain.model.Cliente;
 import br.eti.luan.OSApiApplication.domain.repository.ClienteRepository;
+import br.eti.luan.OSApiApplication.domain.sevice.ClienteService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ public class ClienteController {
     @Autowired
     private ClienteRepository clienteRepository;
     
+    @Autowired
+    private ClienteService clienteService;
+    
     @GetMapping("/clientes")
     public List<Cliente> listas() {
         return clienteRepository.findAll();
@@ -55,7 +59,7 @@ public class ClienteController {
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente adicionar(@Valid @RequestBody Cliente cliente){
         
-        return clienteRepository.save(cliente);
+        return clienteService.salvar(cliente);
     }
     
     @PutMapping("clientes/{clienteID}")
@@ -67,7 +71,7 @@ public class ClienteController {
         }
         
     cliente.setId(clienteID);
-    cliente = clienteRepository.save(cliente);
+    cliente = clienteService.salvar(cliente);
     return ResponseEntity.ok(cliente);
     }
     
@@ -76,8 +80,10 @@ public class ClienteController {
     public ResponseEntity<Void> excluir(@PathVariable Long clienteID){
     //verifica se existe ou nao
     if(!clienteRepository.existsById(clienteID)){
-    return ResponseEntity.notFound().build();}
-    clienteRepository.deleteById(clienteID);
+    return ResponseEntity.notFound().build();
+    }
+    
+    clienteService.excluir(clienteID);
     return ResponseEntity.noContent().build();
     }
     

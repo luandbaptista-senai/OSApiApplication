@@ -4,10 +4,14 @@
  */
 package br.eti.luan.OSApiApplication.api.exceptionhandler;
 
+import br.eti.luan.OSApiApplication.domain.exception.DomainException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.crypto.AEADBadTagException;
+import org.apache.logging.log4j.message.ExitMessage;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -50,6 +54,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
          return super.handleExceptionInternal(ex, problema, headers, status, request);
     }
      
+    @ExceptionHandler(DomainException.class)
+    public ResponseEntity<Object> handleDomainException(DomainException ex, WebRequest request){
+    var status = HttpStatus.BAD_REQUEST;
+    ProblemaException problema = new ProblemaException();
+    problema.setStatus(status.value());
+    problema.setTitulo(ex.getMessage());
+    problema.setDataHora(LocalDateTime.now());
     
+    return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+    }
     
 }
