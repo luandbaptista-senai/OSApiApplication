@@ -5,6 +5,7 @@
 package br.eti.luan.OSApiApplication.api.controller;
 
 import br.eti.luan.OSApiApplication.domain.model.OrdemServico;
+import br.eti.luan.OSApiApplication.domain.model.StatusOrdemServico;
 import br.eti.luan.OSApiApplication.domain.repository.OrdemServicoRepository;
 import br.eti.luan.OSApiApplication.domain.sevice.OrdemServicoService;
 import jakarta.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 
 /**
  *
@@ -96,5 +99,13 @@ public class OrdemServicoController {
     public List<OrdemServico> listarPorCliente(@PathVariable Long clienteId){
     return ordemServicoRepository.findByClienteId(clienteId);
     }
+    
+    @PatchMapping("/atualiza-status/{id}")
+    public void atualizarStatus(@PathVariable Long id, @RequestBody StatusInput input) {
+        // Você usa o "input" que o Spring criou para pegar o texto "STATUS"
+        ordemServicoService.mudarStatus(id, input.STATUS());
+    }
+    
+    public record StatusInput(String STATUS) {}
     
     }
