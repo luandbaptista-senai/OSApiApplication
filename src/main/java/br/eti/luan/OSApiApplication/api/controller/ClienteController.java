@@ -5,8 +5,10 @@
 package br.eti.luan.OSApiApplication.api.controller;
 
 import br.eti.luan.OSApiApplication.domain.model.Cliente;
+import br.eti.luan.OSApiApplication.domain.model.OrdemServico;
 import br.eti.luan.OSApiApplication.domain.repository.ClienteRepository;
 import br.eti.luan.OSApiApplication.domain.sevice.ClienteService;
+import br.eti.luan.OSApiApplication.domain.sevice.OrdemServicoService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
@@ -86,6 +89,9 @@ public class ClienteController {
     clienteService.excluir(clienteID);
     return ResponseEntity.noContent().build();
     }
+    
+
+    
     
     
 }
