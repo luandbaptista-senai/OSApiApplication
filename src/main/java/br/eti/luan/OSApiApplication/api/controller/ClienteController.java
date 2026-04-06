@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author digma
  */
 @RestController
+@RequestMapping("/clientes")
 public class ClienteController {
     @Autowired
     private ClienteRepository clienteRepository;
@@ -40,14 +41,14 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
     
-    @GetMapping("/clientes")
+    @GetMapping
     public List<Cliente> listas() {
         return clienteRepository.findAll();
         //return clienteRepository.findByNome("KGe");
         //return clienteRepository.findByNomeContaining("Silva");
                 }
     
-    @GetMapping("/clientes/{clienteID}")
+    @GetMapping("/{clienteID}")
     public ResponseEntity<Cliente> buscar(@PathVariable Long clienteID){
         Optional<Cliente> cliente = clienteRepository.findById(clienteID);
         
@@ -58,14 +59,14 @@ public class ClienteController {
         }
     }
     
-    @PostMapping("/clientes")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente adicionar(@Valid @RequestBody Cliente cliente){
         
         return clienteService.salvar(cliente);
     }
     
-    @PutMapping("clientes/{clienteID}")
+    @PutMapping("/{clienteID}")
     public ResponseEntity<Cliente> atualizar(@Valid @PathVariable Long clienteID,
                                             @RequestBody Cliente cliente){
     //verifica se existe o cliente
@@ -79,7 +80,7 @@ public class ClienteController {
     }
     
     
-    @DeleteMapping("/clientes/{clienteID}")
+    @DeleteMapping("/{clienteID}")
     public ResponseEntity<Void> excluir(@PathVariable Long clienteID){
     //verifica se existe ou nao
     if(!clienteRepository.existsById(clienteID)){

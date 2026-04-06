@@ -42,17 +42,17 @@ public class OrdemServicoController {
     
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrdemServico criar(@RequestBody OrdemServico ordemServico){
+    public OrdemServico criar(@Valid @RequestBody OrdemServico ordemServico){
     return ordemServicoService.criar(ordemServico);
     }
     
-    @GetMapping("/ordens-servico")
+    @GetMapping
     public List<OrdemServico> listas() {
         return ordemServicoRepository.findAll();
     }
    
     
-   @GetMapping("/ordem-servico/{ordemServicoID}")
+   @GetMapping("/{ordemServicoID}")
     public ResponseEntity<OrdemServico> buscar(@PathVariable Long ordemServicoID){
         Optional<OrdemServico> ordemServico = ordemServicoRepository.findById(ordemServicoID);
         
@@ -63,14 +63,7 @@ public class OrdemServicoController {
         }
     }
     
-    @PostMapping("/ordens-servico")
-    @ResponseStatus(HttpStatus.CREATED)
-    public OrdemServico adicionar(@Valid @RequestBody OrdemServico ordemServico){
-        
-        return ordemServicoService.criar(ordemServico);
-    }
-    
-    @PutMapping("ordem-servico/{ordemServicoID}")
+    @PutMapping("/{ordemServicoID}")
     public ResponseEntity<OrdemServico> atualizar(@Valid @PathVariable Long ordemServicoID,
                                             @RequestBody OrdemServico ordemServico){
     //verifica se existe o ordemServico
@@ -84,7 +77,7 @@ public class OrdemServicoController {
     }
     
     
-    @DeleteMapping("/ordem-servico/{ordemServicoID}")
+    @DeleteMapping("/{ordemServicoID}")
     public ResponseEntity<Void> excluir(@PathVariable Long ordemServicoID){
     //verifica se existe ou nao
     if(!ordemServicoRepository.existsById(ordemServicoID)){
